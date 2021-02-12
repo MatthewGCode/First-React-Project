@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Poppins:wght@500&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #c8d2df;
+    color: #333;
+    font-family: "Poppins", "arial";
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+  
+::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+}
+  
+#root {
+    display: flex;
+    align-items: flex-start;
+}
+
+.list-title {
+    margin-left: 1rem;
+    float: left;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 33vw;
+    min-width: 350px;
+    max-height: 95vh;
+    overflow: auto;
+    margin: 1rem;
+    padding: 0.5rem;
+    border: 3px solid white;
+    border-radius: 8px;
+}
+
+.to-do-list {
+    margin: 1rem;
+}
+
+.item {
+    padding: 0.5rem;
+    margin: 1rem;
+    width: 20vw;
+    min-width: 300px;
+    border: 3px solid white;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.item:hover {
+    transform: scale(1.05, 1.05);
+}
+
+.item-name {
+    font-size: 16px;
+    font-family: "Poppins", "sans-serif";
+    text-align: center;
+    padding: 0.2rem;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    width: 30%;
+}
+
+.shopping-list-item-name {
+    background-color: #5cd437;
+    color: white;
+}
+
+.task-name {
+    width: 50% !important;
+    background-color: #3244e9;
+    color: white;
+}
+
+.task-checkbox {
+    display: block;
+    width: 1rem;
+    height: 1rem;    
+}
+
+.list-btn {
+    outline: none;
+    color: #ffffff;
+    border: 0;
+    border-radius: 4px;
+    padding: 0.5rem;    
+    font-family: "Poppins", "sans-serif";
+}
+
+.list-btn:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.increment-btn {
+    background-color: #45464b;
+}
+
+.decrement-btn {
+    background-color: #0051ff;
+}
+
+.delete-btn {
+    background-color: red;
+
+}
+
+.item-display{
+    background: yellow;
+    padding: 0.2rem;
+    border-radius: 4px;
+}
+
+#tasks-left {
+    float: right;
+    font-size: 23px;
+    margin-right: 1rem;
+    padding: 0 0.2rem;
+    background-color: #fffb00;
+    border-radius: 30%;
+    border: 2px solid #555;
+}
+
