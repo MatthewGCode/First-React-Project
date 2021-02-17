@@ -3,11 +3,11 @@ import Task from "./Task.jsx";
 
 export default function ToDoList() {
     const [currId, setCurrId] = useState(0);
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState({});
     const [tasksLeft, setTasksLeft] = useState(0);
 
     useEffect(() => {
-        document.title = tasks.length === 0? "To Do List" : `To Do List - ${tasksLeft} incomplete task${tasksLeft === 1? "" : "s"}`;
+        document.title = Object.keys(tasks).length === 0? "To Do List" : `To Do List - ${tasksLeft} incomplete task${tasksLeft === 1? "" : "s"}`;
     }, [tasks, tasksLeft]);
 
     function addTask(){
@@ -15,7 +15,9 @@ export default function ToDoList() {
         name = window.prompt("What is this task? ");
         if(name === null || name === "") return;
         const newTask = {id: currId, taskName: name, isCompleted: false}
-        setTasks([...tasks, newTask]);
+        let newTasks = tasks;
+        newTasks[currId] = newTask;
+        setTasks(newTasks);
         setCurrId(currId+1);
         setTasksLeft(tasksLeft+1);
     }
@@ -32,24 +34,29 @@ export default function ToDoList() {
     });
 
     function deleteTask(taskId) {
-        for(let taskObj of tasks) 
-            if(taskObj.id === taskId && !taskObj.isCompleted) setTasksLeft(tasksLeft-1);
-        setTasks(tasks.filter((task) => task.id !== taskId));
+        let newTasks = tasks;
+        if(!newTasks[taskId].isCompleted)
+            setTasksLeft(tasksLeft-1);
+        delete newTasks[taskId];
+        setTasks(newTasks);
+        setCurrId(currId+1);
     }
 
     function changeTaskName(name, taskId) { 
-        setTasks(
-            tasks.map((taskObj) => taskObj.id === taskId? {id: taskObj.id, name: name, isCompleted: taskObj.isCompleted} : taskObj)
-        );
+        let newTasks = tasks;
+        newTasks[taskId].name = name;
+        setTasks(newTasks);
     }
 
     function changeTaskStatus(taskId) {
-        for(let taskObj of tasks) 
-            if(taskObj.id === taskId) setTasksLeft(taskObj.isCompleted? tasksLeft+1: tasksLeft-1);
+        let newTasks = tasks;
+        if(tasks[taskId].isCompleted)
+            setTasksLeft(tasksLeft+1);
+        else 
+            setTasksLeft(tasksLeft-1);
+        newTasks[taskId].isCompleted = !newTasks[taskId].isCompleted;
 
-        setTasks(
-            tasks.map((taskObj) => taskObj.id === taskId? {id: taskObj.id, name: taskObj.name, isCompleted: !taskObj.isCompleted} : taskObj)
-        );
+        setTasks(newTasks);
     }
 
     return (
@@ -59,13 +66,16 @@ export default function ToDoList() {
                 </h1>
             <hr style = {{border: "3px solid #333", margin: "0 1rem"}}/>
 
-            {tasks.map((taskObj) => <Task 
-                key = {taskObj.id} 
-                taskObj = {taskObj} 
-                onDelete = {deleteTask}
-                onNameChange = {changeTaskName} 
-                onStatusChange = {changeTaskStatus}
-                />)}
+            {Object.keys(tasks).map((taskId) => (
+                    <Task 
+                        key = {taskId} 
+                        taskObj = {tasks[taskId]} 
+                        onDelete = {deleteTask}
+                        onNameChange = {changeTaskName} 
+                        onStatusChange = {changeTaskStatus}
+                    />
+                )  
+            )}
 
             <div className = "item" onClick = {addTask}>
                 <p> + Add Task</p>
